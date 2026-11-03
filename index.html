@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SQL Interview Sandbox · Databricks &amp; Fabric</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23ff6b3d'/><text x='16' y='22' font-size='15' text-anchor='middle' fill='white' font-family='monospace' font-weight='bold'>SQL</text></svg>" />
+  </head>
+  <body>
+    <div id="loading" class="loading">
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <div id="loading-text">Starting the in-browser SQL engine…</div>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">SQL</span>
+        <div>
+          <div class="brand-title">SQL Interview Sandbox</div>
+          <div class="brand-sub">Practice for Databricks &amp; Microsoft Fabric</div>
+        </div>
+      </div>
+
+      <div class="dialect-switch" role="radiogroup" aria-label="SQL dialect">
+        <button data-dialect="spark" role="radio">
+          <span class="d-name">Spark SQL</span><span class="d-plat">Databricks · Fabric Lakehouse</span>
+        </button>
+        <button data-dialect="tsql" role="radio">
+          <span class="d-name">T-SQL</span><span class="d-plat">Fabric Warehouse · SQL endpoint</span>
+        </button>
+      </div>
+
+      <div class="top-right">
+        <div class="progress" title="Solved questions">
+          <div class="progress-label"><span id="progress-count">0</span> / <span id="progress-total">0</span> solved</div>
+          <div class="progress-bar"><div id="progress-fill"></div></div>
+        </div>
+        <button id="btn-reset-data" class="ghost" title="Restore the original 4 tables (after DELETE / DROP experiments)">↺ Reset data</button>
+        <button id="btn-reset-progress" class="ghost" title="Clear solved status, hints and saved code">Reset progress</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- ============ question list ============ -->
+      <aside class="sidebar left">
+        <button class="playground-item" data-id="playground">
+          <span class="pg-icon">⌘</span>
+          <span><b>Free playground</b><small>Run any query against the 4 tables</small></span>
+        </button>
+        <div class="filters">
+          <button class="chip active" data-level="All">All</button>
+          <button class="chip" data-level="Easy">Easy</button>
+          <button class="chip" data-level="Medium">Medium</button>
+          <button class="chip" data-level="Hard">Hard</button>
+        </div>
+        <input id="search" type="search" placeholder="Search title or topic…" />
+        <ul id="question-list" class="question-list"></ul>
+      </aside>
+
+      <!-- ============ workspace ============ -->
+      <main class="workspace">
+        <section id="question-panel" class="card question-panel"></section>
+
+        <section class="card editor-card">
+          <div class="editor-head">
+            <span id="editor-dialect-label" class="editor-label"></span>
+            <span class="kbd-hint"><kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Enter</kbd> run · <kbd>Shift</kbd> as well to submit</span>
+          </div>
+          <div id="editor"></div>
+          <div class="toolbar">
+            <button id="btn-run" class="btn secondary">▶ Run</button>
+            <button id="btn-submit" class="btn primary">✓ Submit answer</button>
+            <button id="btn-hint" class="btn hint">💡 Hint</button>
+            <button id="btn-solution" class="btn outline">📖 Show solution</button>
+            <span class="spacer"></span>
+            <button id="btn-reset-code" class="btn ghost small" title="Restore the starter code">Reset code</button>
+            <button id="btn-prev" class="btn ghost small" title="Previous question">‹ Prev</button>
+            <button id="btn-next" class="btn ghost small" title="Next question">Next ›</button>
+          </div>
+        </section>
+
+        <section id="feedback" class="feedback hidden"></section>
+        <section id="solution-panel" class="card solution-panel hidden"></section>
+
+        <section class="card results-card">
+          <div class="results-head">
+            <span id="results-title">Results</span>
+            <span id="results-meta" class="muted"></span>
+          </div>
+          <div id="results" class="results"><div class="empty">Run a query to see results here.</div></div>
+        </section>
+      </main>
+
+      <!-- ============ schema ============ -->
+      <aside class="sidebar right">
+        <h3>Schema</h3>
+        <p class="muted small">Click a table to preview its rows. Click a column to insert it into the editor.</p>
+        <div id="schema"></div>
+        <div class="rule-box">
+          <b>Revenue rule</b>
+          <code>quantity * unit_price * (1 - COALESCE(discount, 0))</code>
+          <span>counting only <code>status = 'Completed'</code></span>
+        </div>
+        <div class="engine-note">
+          Queries run locally in your browser on <b>DuckDB-WASM</b>. The sandbox translates common Spark SQL / T-SQL
+          syntax and warns you about constructs that would not run on the selected platform.
+        </div>
+      </aside>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
